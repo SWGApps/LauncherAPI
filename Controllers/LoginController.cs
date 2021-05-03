@@ -12,8 +12,8 @@ namespace LauncherAPI.Controllers
 
     public class Response
     {
-        public string result { get; set; }
-        public string username { get; set; }
+        public string Result { get; set; }
+        public string Username { get; set; }
 
     }
 
@@ -49,16 +49,17 @@ namespace LauncherAPI.Controllers
 
                 if (password == hashedPasswordInput.Trim())
                 {
-                    Response response = new Response();
-
-                    response.result = "success";
-                    response.username = Username;
-
-                    return JsonConvert.SerializeObject(response);
+                    return JsonConvert.SerializeObject(new Response {
+                        Result = "Success",
+                        Username = Username
+                    }, Formatting.Indented);
                 }
             }
 
-            return $"Details for user: {Username} \n Password: {password} \n Salt: {salt}";
+            return JsonConvert.SerializeObject(new Response {
+                Result = "InvalidCredentials",
+                Username = Username
+            }, Formatting.Indented);
         }
     }
 }
