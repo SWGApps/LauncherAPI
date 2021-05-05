@@ -2,21 +2,11 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using LauncherAPI.Properties;
+using System.Collections.Generic;
 
 namespace LauncherAPI.Controllers
 {
-    public class Credentials
-    {
-        public string Password { get; set; }    
-    }
-
-    public class Response
-    {
-        public string Result { get; set; }
-        public string Username { get; set; }
-
-    }
-
     [ApiController]
     [Route("/account/[controller]")]
     public class LoginController : ControllerBase
@@ -49,16 +39,20 @@ namespace LauncherAPI.Controllers
 
                 if (password == hashedPasswordInput.Trim())
                 {
+                    List<string> characters = _query.GetCharacters(Username);
+
                     return JsonConvert.SerializeObject(new Response {
                         Result = "Success",
-                        Username = Username
+                        Username = Username,
+                        Characters = characters
                     }, Formatting.Indented);
                 }
             }
 
             return JsonConvert.SerializeObject(new Response {
                 Result = "InvalidCredentials",
-                Username = Username
+                Username = Username,
+                Characters = new List<string>()
             }, Formatting.Indented);
         }
     }

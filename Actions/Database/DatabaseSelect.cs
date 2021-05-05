@@ -19,7 +19,7 @@ namespace LauncherAPI.Controllers
             {
                 MySqlCommand cmd = new MySqlCommand(statement, _conn);
 
-                string[] parameters = statement.Split("@")[1].Split("Sanitized")[1].Split(" ");
+                string[] parameters = statement.Split("@")[1].Split("Sanitized")[1].Split(")")[0].Split(" ");
 
                 // Dynamically add parameters to sanitize input
                 for (int i=0; i < parameters.Length; i++)
