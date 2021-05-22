@@ -7,21 +7,21 @@ namespace LauncherAPI.Controllers
 {
     [ApiController]
     [Route("/account/[controller]")]
-    public class LoginController : ControllerBase
+    public class CreateController : ControllerBase
     {
-        readonly ILogger<LoginController> _logger;
+        readonly ILogger<CreateController> _logger;
         APIQuery _query;
 
-        public LoginController(ILogger<LoginController> logger)
+        public CreateController(ILogger<CreateController> logger)
         {
             _logger = logger;
             _query = new APIQuery();
         }
 
         [HttpPost("{Username}")]
-        public string Post(string Username, [FromForm] LoginCredentials credentials)
+        public string Post(string Username, [FromForm] CreateAccountCredentials credentials)
         {
-            return _query.Login(Username, credentials);
+            return _query.Create(Username, credentials);
         }
     }
 }

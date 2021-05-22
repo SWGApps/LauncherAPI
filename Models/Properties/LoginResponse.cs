@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace LauncherAPI.Properties
+namespace LauncherAPI.Models.Properties
 {
-    public class Response
+    public class LoginResponse
     {
         public string Result { get; set; }
         public string Username { get; set; }
