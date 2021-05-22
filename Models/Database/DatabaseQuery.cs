@@ -22,9 +22,7 @@ namespace LauncherAPI.Models
 
             try
             {
-                string hashedPassword;
-                string salt;
-                (hashedPassword, salt) = SWGUtils.HashPassword(password);
+                (string hashedPassword, string salt) = SWGUtils.HashPassword(password);
 
                 string[] data = { username, hashedPassword };
 
@@ -93,7 +91,6 @@ namespace LauncherAPI.Models
                 {
                     password = (string)result[0];
                     salt = (string)result[1];
-                    Console.WriteLine(salt);
                 }
 
                 result.Close();

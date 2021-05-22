@@ -89,9 +89,7 @@ namespace LauncherAPI.Models
                 string passwordInput;
                 passwordInput = credentials.Password;
                 
-                string hashedPasswordInput;
-                string returnedSalt;
-                (hashedPasswordInput, returnedSalt) = SWGUtils.HashPassword(passwordInput, salt);
+                (string hashedPasswordInput, string returnedSalt) = SWGUtils.HashPassword(passwordInput, salt);
 
                 if (password == hashedPasswordInput.Trim())
                 {
