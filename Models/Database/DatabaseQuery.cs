@@ -102,7 +102,7 @@ namespace LauncherAPI.Models
                 Console.WriteLine(ex.ToString());
             }
 
-            return Tuple.Create("", "");
+            return Tuple.Create("DatabaseConnectionError", "");
         }
 
         /// <summary>

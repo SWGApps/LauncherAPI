@@ -97,6 +97,15 @@ namespace LauncherAPI.Models
             // Tuple, from database
             (string password, string salt) = _query.GetUserCredentials(username.Trim().ToLower());
 
+            if (password == "DatabaseConnectionError")
+            {
+                return JsonConvert.SerializeObject(new LoginResponse {
+                    Result = "DatabaseConnectionError",
+                    Username = "",
+                    Characters = new List<string>()
+                }, Formatting.Indented);
+            }
+
             if (!String.IsNullOrEmpty(password) && !String.IsNullOrEmpty(salt))
             {
                 string passwordInput;
