@@ -23,5 +23,11 @@ namespace LauncherAPI.Controllers
         {
             return _query.Login(Username, credentials);
         }
+
+        [HttpPost("")]
+        public string Post()
+        {
+            return _query.LoginEmpty();
+        }
     }
 }

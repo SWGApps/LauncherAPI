@@ -74,6 +74,19 @@ namespace LauncherAPI.Models
         }
 
         /// <summary>
+        /// Use this method when a login request comes in without a username
+        /// </summary>
+        /// <returns>An invalid credentials error</returns>
+        internal string CreateEmpty()
+        {
+            return JsonConvert.SerializeObject(new LoginResponse {
+                Result = "InvalidInputProvided",
+                Username = "",
+                Characters = new List<string>()
+            }, Formatting.Indented);
+        }
+
+        /// <summary>
         /// Use this method to login using a previously created SWG account
         /// </summary>
         /// <param name="username"></param>
@@ -106,6 +119,19 @@ namespace LauncherAPI.Models
             return JsonConvert.SerializeObject(new LoginResponse {
                 Result = "InvalidCredentials",
                 Username = username.Trim().ToLower(),
+                Characters = new List<string>()
+            }, Formatting.Indented);
+        }
+
+        /// <summary>
+        /// Use this method when a login request comes in without a username
+        /// </summary>
+        /// <returns>An invalid credentials error</returns>
+        internal string LoginEmpty()
+        {
+            return JsonConvert.SerializeObject(new LoginResponse {
+                Result = "InvalidCredentials",
+                Username = "",
                 Characters = new List<string>()
             }, Formatting.Indented);
         }
