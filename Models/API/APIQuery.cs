@@ -25,18 +25,26 @@ namespace LauncherAPI.Models
         /// <returns>An indented JSON formatted strong with the results of the account creation attempt</returns>
         internal string Create(string username, CreateAccountCredentials credentials)
         {
-            if (!StringUtils.IsAlphaNum(username))
+            Dictionary<string, string> types = new Dictionary<string, string>
             {
-                return JsonConvert.SerializeObject(new CreateAccountResponse {
-                    Result = "UsernameContainsInvalidCharacters"
-                }, Formatting.Indented);
-            }
+                { "UserCharacters", username },
+                { "PasswordCharacters", credentials.Password },
+                { "EmailCharacters", credentials.Email },
+                { "DiscordCharacters", credentials.Discord },
+                { "UsernameLength", username },
+                { "PasswordLength", credentials.Password },
+                { "EmailLength", credentials.Email },
+                { "DiscordLength", credentials.Discord }
+            };
 
-            if (!StringUtils.IsValidPassword(credentials.Password))
+            foreach (KeyValuePair<string, string> type in types)
             {
-                return JsonConvert.SerializeObject(new CreateAccountResponse {
-                    Result = "PasswordContainsInvalidCharacters"
-                }, Formatting.Indented);
+                string result = StringUtils.GetAccountCreationErrorResponse(type.Key, type.Value);
+
+                if (result != null)
+                {
+                    return result;
+                }
             }
 
             if (credentials.Password != credentials.PasswordConfirmation)
@@ -55,10 +63,29 @@ namespace LauncherAPI.Models
                 }, Formatting.Indented);
             }
 
-            bool accountInserted = _query.InsertAccount(new List<string>() {
-                username.Trim().ToLower(), credentials.Password.Trim()
-            });
+            // Check if captcha is correct server-side
+            if (int.Parse(credentials.CaptchaValue1) + 
+                int.Parse(credentials.CaptchaValue2) != 
+                int.Parse(credentials.CaptchaAnswer))
+            {
+                return JsonConvert.SerializeObject(new CreateAccountResponse {
+                    Result = "CaptchaAnswerIncorrect"
+                }, Formatting.Indented);                
+            }
+
+            if (string.IsNullOrEmpty(credentials.Discord))
+            {
+                credentials.Discord = "";
+            }
             
+            bool accountInserted = _query.InsertAccount(new List<string>() {
+                username.Trim().ToLower(), 
+                credentials.Password.Trim(),
+                credentials.Email.Trim(),
+                credentials.Discord.Trim(),
+                credentials.SubscribeToNewsletter.ToString()
+            });
+
             if (accountInserted)
             {
                 return JsonConvert.SerializeObject(new CreateAccountResponse {

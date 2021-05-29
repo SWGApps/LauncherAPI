@@ -19,18 +19,23 @@ namespace LauncherAPI.Models
 
             string username = credentials[0];
             string password = credentials[1];
+            string email = credentials[2];
+            string discord = credentials[3];
+            string subscribed = credentials[4];
+
+            int isSubscribed = (subscribed.ToLower().Trim() == "true") ? 1 : 0;
 
             try
             {
                 (string hashedPassword, string salt) = SWGUtils.HashPassword(password);
 
-                string[] data = { username, hashedPassword };
+                string[] data = { username, hashedPassword, email, discord, subscribed };
 
                 var result = insert.Execute(
-                    $"INSERT into accounts (username, password, station_id, salt) VALUES (@SanitizedUsername, @SanitizedPassword," +
-                    $"'{ SWGUtils.GenerateStationId() }', '{ salt }')", data
+                    $"INSERT into accounts (username, password, station_id, salt, email, discord, subscribed) VALUES (@SanitizedUsername, @SanitizedPassword," +
+                    $"'{ SWGUtils.GenerateStationId() }', '{ salt }', @SanitizedEmail, @SanitizedDiscord, { subscribed })", data
                 );
-
+                
                 return true;
             }
             catch (Exception ex)
