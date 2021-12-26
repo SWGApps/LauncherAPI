@@ -40,7 +40,9 @@ namespace LauncherAPI.Models
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                using StreamWriter sw = new("api_server.log");
+
+                sw.WriteLine(ex.ToString());
             }
 
             return false;
@@ -69,7 +71,9 @@ namespace LauncherAPI.Models
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                using StreamWriter sw = new("api_server.log");
+
+                sw.WriteLine(ex.ToString());
             }
 
             return false;
@@ -104,7 +108,9 @@ namespace LauncherAPI.Models
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                using StreamWriter sw = new("api_server.log");
+
+                sw.WriteLine(ex.ToString());
             }
 
             return Tuple.Create("DatabaseConnectionError", "");
@@ -135,7 +141,9 @@ namespace LauncherAPI.Models
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                using StreamWriter sw = new("api_server.log");
+
+                sw.WriteLine(ex.ToString());
             }
             
             return characters;

@@ -36,7 +36,10 @@ namespace LauncherAPI.Models
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                using StreamWriter sw = new("api_server.log");
+
+                sw.WriteLine(ex.ToString());
+
                 return null;
             }
         }
