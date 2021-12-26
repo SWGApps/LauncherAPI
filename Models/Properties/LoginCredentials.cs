@@ -2,6 +2,6 @@ namespace LauncherAPI.Models.Properties
 {
     public class LoginCredentials
     {
-        public string Password { get; set; }    
+        public string? Password { get; set; }    
     }
 }
